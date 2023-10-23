@@ -4,6 +4,8 @@ from nrf24l01 import NRF24L01
 
 pins = {"spi": 0, "miso": 4, "mosi": 7, "sck": 6, "csn": 5, "ce": 12}
 
+spi = SPI(pins["spi"], sck=Pin(pins["sck"]), mosi=Pin(pins["mosi"]), miso=Pin(pins["miso"]))
+
 tx_address = b"\xaa\xf0\xf0\xf0\xf0"
 rx_address = b"\xbb\xf0\xf0\xf0\xf0"
 
@@ -11,7 +13,7 @@ print("NRF24L01 transmitter")
 
 csn = Pin(pins["csn"], mode=Pin.OUT, value=1)
 ce  = Pin(pins["ce"],  mode=Pin.OUT, value=0)
-nrf = NRF24L01(SPI(pins["spi"]), csn, ce, payload_size=32)
+nrf = NRF24L01(spi, csn, ce, payload_size=32)
 
 nrf.open_tx_pipe(tx_address)
 nrf.open_rx_pipe(1, rx_address)
